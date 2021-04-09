@@ -1,11 +1,34 @@
 const express=require('express'); 
 const router=express.Router(); 
+const auth=require('../middleware/auth')
+
+const { body, validationResult, check } = require('express-validator');
+const User = require('../models/User');
+const Contact = require('../models/Contact');
+
+
+
+
+
+
+
+
+
+
+
 
 //@route    GET api/contacts
 //@dwesc    Get all users contacts
 //@access   Private
-router.get('/',(req,res)=>{
-    res.send('get all contacts')
+router.get('/',auth,(req,res)=>{
+    // res.send('get all contacts')
+    try{
+        const contacts = await Contact.find({user:req.user.id}).sort({date:-1})
+        res.json(contacts)
+    }
+    catch(err){
+
+    }
 });
 
 //@route    POST api/contacts
